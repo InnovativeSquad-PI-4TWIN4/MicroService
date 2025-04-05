@@ -1,18 +1,20 @@
 package com.easytrip.userservice.controller;
 
 import com.easytrip.userservice.models.Reservation;
+import com.easytrip.userservice.service.IReservationService;
 import com.easytrip.userservice.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/reservations")
 public class Reservationcontroller {
-
     @Autowired
-    private ReservationService reservationService;
+    private IReservationService reservationService;
 
     @GetMapping
     public List<Reservation> getAll() {
@@ -37,5 +39,16 @@ public class Reservationcontroller {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         reservationService.deleteReservation(id);
+    }
+
+    // 🔥 Nouvelle méthode pour récupérer la réservation avec les infos utilisateur
+    @GetMapping("/{id}/details")
+    public ResponseEntity<Map<String, Object>> getReservationWithUser(@PathVariable Long id) {
+        Map<String, Object> result = reservationService.getReservationWithUser(id);
+        if (result != null) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
