@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -69,12 +70,18 @@ public class UserController {
 
     // Endpoint pour la connexion
     @PostMapping("/signin")
-    public ResponseEntity<String> signin(@RequestParam String email, @RequestParam String password) {
-        boolean isAuthenticated = userService.authenticateUser(email, password);
-        if (isAuthenticated) {
-            return ResponseEntity.ok("User authenticated successfully");
-        } else {
-            return ResponseEntity.status(401).body("Authentication failed");
+    public ResponseEntity<?> signin(@RequestParam String email, @RequestParam String password) {
+        try {
+            // Appelle le service qui retourne un token
+            String token = userService.authenticateUser(email, password);
+
+            // Retourne le token dans une réponse JSON
+            return ResponseEntity.ok().body(
+                    Map.of("token", token, "message", "User authenticated successfully")
+            );
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
         }
     }
+
 }

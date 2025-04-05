@@ -14,11 +14,14 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final com.easytrip.userservice.security.JwtUtil jwtUtil;
 
-    @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+
+    // Constructeur avec injection de JwtUtil
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, com.easytrip.userservice.security.JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     public List<User> getAllUsers() {
@@ -68,15 +71,31 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // 🔐 Authentification
-    public boolean authenticateUser(String email, String password) {
-        // Recherche de l'utilisateur par email
-        Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(email));
+//    // 🔐 Authentification
+//    public boolean authenticateUser(String email, String password) {
+//        // Recherche de l'utilisateur par email
+//        Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(email));
+//
+//        // Si l'utilisateur n'est pas trouvé, on lance une exception
+//        User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
+//
+//        // Vérification du mot de passe
+//        return passwordEncoder.matches(password, user.getPassword());
+//    }
 
-        // Si l'utilisateur n'est pas trouvé, on lance une exception
-        User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Vérification du mot de passe
-        return passwordEncoder.matches(password, user.getPassword());
+    // 🔑 Authentification et génération de token JWT
+    public String authenticateUser(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Vérifier le mot de passe
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        // Générer un token JWT
+        return jwtUtil.generateToken(user.getEmail());
     }
+
 }
