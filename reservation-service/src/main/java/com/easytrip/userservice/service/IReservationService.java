@@ -19,4 +19,7 @@ public interface IReservationService {
 
     // Nouvelle méthode pour récupérer la réservation + infos utilisateur
     Map<String, Object> getReservationWithUser(Long id);
+
+    Map<String, Object> getStatistics();
+
 }

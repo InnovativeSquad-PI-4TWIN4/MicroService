@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationService implements IReservationService {
@@ -63,6 +64,27 @@ public class ReservationService implements IReservationService {
         result.put("user", user);
         return result;
     }
+    public Map<String, Object> getStatistics() {
+        List<Reservation> reservations = reservationRepository.findAll();
+
+        long totalReservations = reservations.size();
+
+        Map<String, Long> reservationsByDestination = reservations.stream()
+                .collect(Collectors.groupingBy(Reservation::getDestination, Collectors.counting()));
+
+        double averagePeople = reservations.stream()
+                .mapToInt(Reservation::getNombrePersonnes)
+                .average()
+                .orElse(0.0);
+
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("totalReservations", totalReservations);
+        stats.put("reservationsByDestination", reservationsByDestination);
+        stats.put("averagePeoplePerReservation", averagePeople);
+
+        return stats;
+    }
+
 
 
 }
