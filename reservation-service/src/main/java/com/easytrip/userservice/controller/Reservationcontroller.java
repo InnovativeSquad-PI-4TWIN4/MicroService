@@ -51,4 +51,9 @@ public class Reservationcontroller {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/statistics")
+    public ResponseEntity<Map<String, Object>> getStatistics() {
+        Map<String, Object> stats = reservationService.getStatistics();
+        return ResponseEntity.ok(stats);
+    }
 }
