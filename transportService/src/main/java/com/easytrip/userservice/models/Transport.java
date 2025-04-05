@@ -1,9 +1,6 @@
 package com.easytrip.userservice.models;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,25 +15,18 @@ public class Transport {
 
     @Id
     private String id;
+    private String voyageId; // ou Long si tu veux référencer un voyage depuis Mongo
 
-    private String type; // Ex : "Avion", "Bus", "Train", etc.
-
-    private String compagnie; // Nom de la compagnie : Ex : "Air France", "SNCF", etc.
-
-    private int capacite; // Nombre de places
-
-    private String numero; // Numéro du transport (ex: numéro de vol)
-
+    private String type;
+    private String compagnie;
+    private int capacite;
+    private String numero;
     private String villeDepart;
-
     private String villeArrivee;
-
     private LocalDateTime dateDepart;
-
     private LocalDateTime dateArrivee;
-
     private double prix;
 
-    // Au lieu de relation, on stocke juste l'id du voyage
-    private String voyageId;
+    // 🔗 Lien vers l'utilisateur (MySQL)
+    private Long userId;
 }
