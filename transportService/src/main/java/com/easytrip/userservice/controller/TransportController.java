@@ -38,4 +38,10 @@ public class TransportController {
     public void delete(@PathVariable String id) {
         transportService.deleteTransport(id);
     }
+
+    @GetMapping("/user/{userId}")
+    public List<Transport> getByUserId(@PathVariable Long userId) {
+        return transportService.getTransportsByUserId(userId);
+    }
+
 }
