@@ -22,4 +22,5 @@ public interface IReservationService {
 
     Map<String, Object> getStatistics();
 
+    List<String> recommendDestinations(Long userId);
 }
