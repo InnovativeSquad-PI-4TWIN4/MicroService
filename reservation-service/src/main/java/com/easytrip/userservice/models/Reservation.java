@@ -20,4 +20,7 @@ public class Reservation {
     private String dateDepart;
     private String dateRetour;
     private int nombrePersonnes;
+
+    private Long userId; // ← Liaison avec un user du microservice "user"
 }
+
