@@ -3,6 +3,8 @@ package com.easytrip.userservice.controller;
 import com.easytrip.userservice.models.User;
 import com.easytrip.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,5 +41,40 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+    //EYA
+
+
+    // 🔑 Changer le mot de passe
+    @PutMapping("/{id}/change-password")
+    public ResponseEntity<User> changePassword(
+            @PathVariable Long id,
+            @RequestParam String oldPassword,
+            @RequestParam String newPassword) {
+
+        try {
+            User updatedUser = userService.changePassword(id, oldPassword, newPassword);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<String> signup(@RequestBody User user) {
+        userService.registerUser(user);
+        return ResponseEntity.ok("User registered successfully");
+    }
+
+    // Endpoint pour la connexion
+    @PostMapping("/signin")
+    public ResponseEntity<String> signin(@RequestParam String email, @RequestParam String password) {
+        boolean isAuthenticated = userService.authenticateUser(email, password);
+        if (isAuthenticated) {
+            return ResponseEntity.ok("User authenticated successfully");
+        } else {
+            return ResponseEntity.status(401).body("Authentication failed");
+        }
     }
 }
