@@ -84,6 +84,30 @@ public class ReservationService implements IReservationService {
 
         return stats;
     }
+    public List<String> recommendDestinations(Long userId) {
+        List<Reservation> userReservations = reservationRepository.findByUserId(userId);
+
+        if (!userReservations.isEmpty()) {
+            // Compter les destinations les plus fréquentes de l’utilisateur
+            return userReservations.stream()
+                    .collect(Collectors.groupingBy(Reservation::getDestination, Collectors.counting()))
+                    .entrySet().stream()
+                    .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                    .map(Map.Entry::getKey)
+                    .limit(3)
+                    .collect(Collectors.toList());
+        } else {
+            // Pas d’historique => Recommander les destinations populaires
+            return reservationRepository.findAll().stream()
+                    .collect(Collectors.groupingBy(Reservation::getDestination, Collectors.counting()))
+                    .entrySet().stream()
+                    .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                    .map(Map.Entry::getKey)
+                    .limit(3)
+                    .collect(Collectors.toList());
+        }
+    }
+
 
 
 

@@ -56,4 +56,10 @@ public class Reservationcontroller {
         Map<String, Object> stats = reservationService.getStatistics();
         return ResponseEntity.ok(stats);
     }
+    @GetMapping("/recommendations/{userId}")
+    public ResponseEntity<List<String>> getRecommendations(@PathVariable Long userId) {
+        List<String> recommendations = reservationService.recommendDestinations(userId);
+        return ResponseEntity.ok(recommendations);
+    }
+
 }
