@@ -34,6 +34,6 @@ public class Agence implements Serializable {
 
     private boolean active; // Statut de l'agence (active ou non)
 
-   // @ManyToOne
-    // private User responsable; // Lien vers un user représentant ou gérant l’agence
+    private String responsableId;
+
 }

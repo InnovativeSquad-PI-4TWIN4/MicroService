@@ -33,6 +33,7 @@ public class ExamenService implements IExamenService{
     public Agence modifierAgence(Long id, Agence agence) {
         Agence existingAgence = agenceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Agence non trouvée"));
+
         existingAgence.setNomAg(agence.getNomAg());
         existingAgence.setAdresse(agence.getAdresse());
         existingAgence.setEmail(agence.getEmail());
@@ -40,7 +41,11 @@ public class ExamenService implements IExamenService{
         existingAgence.setSiteWeb(agence.getSiteWeb());
         existingAgence.setDescription(agence.getDescription());
         existingAgence.setActive(agence.isActive());
-        // Si besoin, mettre à jour le responsable ici aussi
+
+        // ✅ mettre à jour le responsable si fourni
+        if (agence.getResponsableId() != null) {
+            existingAgence.setResponsableId(agence.getResponsableId());
+        }
 
         return agenceRepository.save(existingAgence);
     }
