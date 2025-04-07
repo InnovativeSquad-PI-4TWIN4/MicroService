@@ -18,11 +18,11 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final com.easytrip.userservice.security.JwtUtil jwtUtil;
+    private final com.easytrip.userservice.config.JwtUtil jwtUtil;
 
 
     // Constructeur avec injection de JwtUtil
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, com.easytrip.userservice.security.JwtUtil jwtUtil) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, com.easytrip.userservice.config.JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
