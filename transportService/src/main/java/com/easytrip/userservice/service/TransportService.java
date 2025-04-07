@@ -1,10 +1,11 @@
 package com.easytrip.userservice.service;
 
 import com.easytrip.userservice.Repository.TransportRepository;
+import com.easytrip.userservice.feign.UserClient;
 import com.easytrip.userservice.models.Transport;
+import com.easytrip.userservice.models.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -12,6 +13,9 @@ public class TransportService implements ITransportService {
 
     @Autowired
     private TransportRepository transportRepository;
+
+    @Autowired
+    private UserClient userClient;
 
     @Override
     public List<Transport> getAllTransports() {
@@ -25,6 +29,14 @@ public class TransportService implements ITransportService {
 
     @Override
     public Transport createTransport(Transport transport) {
+        try {
+            UserDTO user = userClient.getUserById(transport.getUserId());
+            if (user == null) {
+                throw new RuntimeException("User not found");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("User ID invalide ou introuvable");
+        }
         return transportRepository.save(transport);
     }
 
@@ -42,7 +54,7 @@ public class TransportService implements ITransportService {
             existing.setDateArrivee(updated.getDateArrivee());
             existing.setPrix(updated.getPrix());
             existing.setVoyageId(updated.getVoyageId());
-            existing.setUserId(updated.getUserId()); // 🆕 Ajout du lien vers utilisateur
+            existing.setUserId(updated.getUserId());
             return transportRepository.save(existing);
         }
         return null;
