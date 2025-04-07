@@ -1,4 +1,4 @@
-package com.easytrip.userservice.security;
+package com.easytrip.userservice.config;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

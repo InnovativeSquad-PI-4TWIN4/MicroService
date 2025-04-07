@@ -1,5 +1,6 @@
 package com.easytrip.userservice.service;
 
+import com.easytrip.userservice.AvisHTTP.AvisClient;
 import com.easytrip.userservice.Repository.UserRepository;
 import com.easytrip.userservice.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final com.easytrip.userservice.security.JwtUtil jwtUtil;
-
+    @Autowired
+    private AvisClient avisClient;  // Injection du Feign Client
 
     // Constructeur avec injection de JwtUtil
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, com.easytrip.userservice.security.JwtUtil jwtUtil) {
