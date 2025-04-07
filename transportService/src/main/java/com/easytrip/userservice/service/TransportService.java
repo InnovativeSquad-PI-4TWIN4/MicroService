@@ -3,6 +3,7 @@ package com.easytrip.userservice.service;
 import com.easytrip.userservice.Repository.TransportRepository;
 import com.easytrip.userservice.feign.UserClient;
 import com.easytrip.userservice.models.Transport;
+import com.easytrip.userservice.models.TransportWithUserDTO;
 import com.easytrip.userservice.models.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,4 +70,33 @@ public class TransportService implements ITransportService {
     public List<Transport> getTransportsByUserId(Long userId) {
         return transportRepository.findByUserId(userId);
     }
+    // 🚀 Méthode avancée : retourne le transport + l'utilisateur associé
+    public TransportWithUserDTO getTransportWithUserDetails(String transportId) {
+        Transport transport = transportRepository.findById(transportId)
+                .orElseThrow(() -> new RuntimeException("Transport not found"));
+
+        UserDTO user;
+        try {
+            user = userClient.getUserById(transport.getUserId());
+        } catch (Exception e) {
+            throw new RuntimeException("Impossible de récupérer l'utilisateur associé");
+        }
+
+        TransportWithUserDTO dto = new TransportWithUserDTO();
+        dto.setId(transport.getId());
+        dto.setVoyageId(transport.getVoyageId());
+        dto.setType(transport.getType());
+        dto.setCompagnie(transport.getCompagnie());
+        dto.setCapacite(transport.getCapacite());
+        dto.setNumero(transport.getNumero());
+        dto.setVilleDepart(transport.getVilleDepart());
+        dto.setVilleArrivee(transport.getVilleArrivee());
+        dto.setDateDepart(transport.getDateDepart());
+        dto.setDateArrivee(transport.getDateArrivee());
+        dto.setPrix(transport.getPrix());
+        dto.setUser(user);
+
+        return dto;
+    }
+
 }
