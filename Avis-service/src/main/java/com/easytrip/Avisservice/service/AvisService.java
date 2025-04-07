@@ -2,7 +2,9 @@ package com.easytrip.Avisservice.service;
 
 
 import com.easytrip.Avisservice.Repository.AvisRepository;
+import com.easytrip.Avisservice.Repository.ReactionAvisRepository;
 import com.easytrip.Avisservice.models.Avis;
+import com.easytrip.Avisservice.models.ReactionAvis;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.easytrip.Avisservice.UserClient.UserClient;
@@ -19,7 +21,7 @@ public class AvisService implements IAvisService {
 
     private final AvisRepository avisRepository;
     private final UserClient userClient;
-
+    private final ReactionAvisRepository reactionAvisRepository;
     @Override
     public Avis createAvis(Avis avis) {
         try {
@@ -100,5 +102,27 @@ public class AvisService implements IAvisService {
 
         avis.setApprouve(approuve);  // Met à jour l'état "approuve" de l'avis
         return avisRepository.save(avis);  // Sauvegarde l'avis mis à jour
+    }
+
+    public ReactionAvis ajouterReaction(Long avisId, Long userId, boolean liked) {
+        Avis avis = avisRepository.findById(avisId)
+                .orElseThrow(() -> new RuntimeException("Avis non trouvé"));
+
+        // Vérifier si l'utilisateur a déjà réagi
+        if (reactionAvisRepository.existsByAvisIdAndUserId(avisId, userId)) {
+            throw new RuntimeException("L'utilisateur a déjà réagi à cet avis");
+        }
+
+        ReactionAvis reaction = ReactionAvis.builder()
+                .avis(avis)
+                .userId(userId)
+                .liked(liked)
+                .build();
+
+        return reactionAvisRepository.save(reaction);
+    }
+
+    public List<ReactionAvis> getReactionsByAvis(Long avisId) {
+        return reactionAvisRepository.findByAvisId(avisId);
     }
 }

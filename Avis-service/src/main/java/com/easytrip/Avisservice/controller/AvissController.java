@@ -4,6 +4,7 @@ import com.easytrip.Avisservice.UserClient.UserClient;
 import com.easytrip.Avisservice.dto.AvisAvecScoreDTO;
 import com.easytrip.Avisservice.dto.UserDTO;
 import com.easytrip.Avisservice.models.Avis;
+import com.easytrip.Avisservice.models.ReactionAvis;
 import com.easytrip.Avisservice.service.AvisService;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
@@ -133,5 +134,21 @@ public class AvissController {
 
         Avis avisMisAJour = avisService.modererAvis(id, approuve);
         return ResponseEntity.ok(avisMisAJour);
+    }
+
+    //like/dislike
+    @PostMapping("/{avisId}/user/{userId}")
+    public ResponseEntity<ReactionAvis> ajouterReaction(
+            @PathVariable Long avisId,
+            @PathVariable Long userId,
+            @RequestParam boolean liked) {
+
+        ReactionAvis reaction = avisService.ajouterReaction(avisId, userId, liked);
+        return ResponseEntity.ok(reaction);
+    }
+
+    @GetMapping("/{avisId}")
+    public ResponseEntity<List<ReactionAvis>> getReactions(@PathVariable Long avisId) {
+        return ResponseEntity.ok(avisService.getReactionsByAvis(avisId));
     }
 }
