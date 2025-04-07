@@ -4,6 +4,8 @@ import com.easytrip.userservice.models.Reservation;
 import com.easytrip.userservice.service.IReservationService;
 import com.easytrip.userservice.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,5 +63,15 @@ public class Reservationcontroller {
         List<String> recommendations = reservationService.recommendDestinations(userId);
         return ResponseEntity.ok(recommendations);
     }
+    @GetMapping("/{id}/ticket")
+    public ResponseEntity<byte[]> generateTicket(@PathVariable Long id) throws Exception {
+        byte[] pdf = reservationService.generateReservationTicket(id);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=ticket.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
+    }
+
+
 
 }

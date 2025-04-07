@@ -21,11 +21,20 @@ public class GatewayApplication {
                 .route("agence-service", r -> r
                         .path("/api/agences/**")
                            .uri("http://localhost:8089"))
+ oumaima
+                .route("reservation-service", r -> r
+                        .path("/api/reservations/**")
+                        .uri("http://localhost:8085")) // utiliser le nom Eureka ici
+
                 .route("transport-service", r -> r
                         .path("/api/transports/**")
                         .uri("http://localhost:8081")) // nom exact de ton application Eureka
 
+ main
                 .build();
+
+
+
     }
     
 }

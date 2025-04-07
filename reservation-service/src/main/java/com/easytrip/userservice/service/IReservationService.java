@@ -1,7 +1,10 @@
 package com.easytrip.userservice.service;
 
 import com.easytrip.userservice.models.Reservation;
+import com.google.zxing.WriterException;
+import com.lowagie.text.DocumentException;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,4 +26,8 @@ public interface IReservationService {
     Map<String, Object> getStatistics();
 
     List<String> recommendDestinations(Long userId);
+
+
+    public byte[] generateReservationTicket(Long reservationId) throws IOException, DocumentException, WriterException;
+
 }
