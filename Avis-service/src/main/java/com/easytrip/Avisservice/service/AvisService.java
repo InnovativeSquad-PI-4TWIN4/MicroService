@@ -5,18 +5,34 @@ import com.easytrip.Avisservice.Repository.AvisRepository;
 import com.easytrip.Avisservice.models.Avis;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.easytrip.Avisservice.UserClient.UserClient;
+import feign.FeignException;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AvisService implements IAvisService {
 
     private final AvisRepository avisRepository;
+    private final UserClient userClient;
 
     @Override
     public Avis createAvis(Avis avis) {
+        try {
+            // Vérifier que l'utilisateur existe via le microservice user-service
+            userClient.getUserById(avis.getUtilisateurId());
+        } catch (FeignException.NotFound e) {
+            throw new RuntimeException("Utilisateur introuvable avec l'id: " + avis.getUtilisateurId());
+        } catch (FeignException.Unauthorized e) {
+            throw new RuntimeException("Non autorisé à accéder à l'utilisateur.");
+        } catch (FeignException e) {
+            throw new RuntimeException("Erreur lors de la communication avec le service utilisateur.");
+        }
+
         avis.setDateAvis(LocalDateTime.now());
         avis.setApprouve(false); // par défaut, l'avis n'est pas approuvé
         return avisRepository.save(avis);
@@ -55,5 +71,34 @@ public class AvisService implements IAvisService {
     @Override
     public void deleteAvis(Long id) {
         avisRepository.deleteById(id);
+    }
+
+    public double calculerScorePondere(Avis avis) {
+        double base = avis.getNote();
+
+        // Pondérer par ancienneté (moins d'impact si plus vieux)
+        long joursDepuis = ChronoUnit.DAYS.between(avis.getDateAvis(), LocalDateTime.now());
+        double facteurTemps = 1.0 / (1 + (joursDepuis / 30.0)); // diminue tous les 30 jours
+
+        // Pondération si approuvé
+        double facteurApprouve = avis.isApprouve() ? 1.2 : 0.8;
+
+        return base * facteurTemps * facteurApprouve;
+    }
+
+    public List<Avis> getAvisParPertinence(List<Avis> avisList) {
+        return avisList.stream()
+                .sorted((a1, a2) -> Double.compare(calculerScorePondere(a2), calculerScorePondere(a1)))
+                .collect(Collectors.toList());
+    }
+
+
+    // Méthode pour approuver ou refuser un avis
+    public Avis modererAvis(Long avisId, boolean approuve) {
+        Avis avis = avisRepository.findById(avisId)
+                .orElseThrow(() -> new RuntimeException("Avis non trouvé"));
+
+        avis.setApprouve(approuve);  // Met à jour l'état "approuve" de l'avis
+        return avisRepository.save(avis);  // Sauvegarde l'avis mis à jour
     }
 }
