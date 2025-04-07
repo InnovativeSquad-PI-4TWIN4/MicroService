@@ -1,10 +1,22 @@
 package com.easytrip.Avisservice.controller;
+import com.easytrip.Avisservice.Repository.AvisRepository;
+import com.easytrip.Avisservice.UserClient.UserClient;
+import com.easytrip.Avisservice.dto.AvisAvecScoreDTO;
+import com.easytrip.Avisservice.dto.UserDTO;
 import com.easytrip.Avisservice.models.Avis;
 import com.easytrip.Avisservice.service.AvisService;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/avis")
@@ -14,46 +26,112 @@ public class AvissController {
 
     private final AvisService avisService;
 
-    // ➕ Ajouter un avis
+    private final UserClient userClient;
+    private final AvisRepository avisRepository;
+
     @PostMapping("/addAvis")
-    public ResponseEntity<Avis> createAvis(@RequestBody Avis avis) {
-        return ResponseEntity.ok(avisService.createAvis(avis));
+    public ResponseEntity<?> createAvis(@RequestBody Avis avis) {
+        try {
+            // 🔎 Vérifie si l'utilisateur existe
+            UserDTO user = userClient.getUserById(avis.getUtilisateurId());
+
+            // 👌 S’il existe, on crée l’avis
+            Avis savedAvis = avisService.createAvis(avis);
+            return ResponseEntity.ok(savedAvis);
+
+        } catch (FeignException.NotFound e) {
+            return ResponseEntity.status(404).body("Utilisateur avec l'ID " + avis.getUtilisateurId() + " introuvable.");
+
+        } catch (FeignException e) {
+            return ResponseEntity.status(500).body("Erreur lors de la communication avec user-service : " + e.getMessage());
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erreur lors de la création de l'avis : " + e.getMessage());
+        }
     }
 
-    // 🔍 Récupérer un avis par son ID
-    @GetMapping("/getById/{id}")
-    public ResponseEntity<Avis> getAvisById(@PathVariable Long id) {
-        return ResponseEntity.ok(avisService.getAvisById(id));
+
+    @GetMapping("/getavis/{id}")
+    public ResponseEntity<?> getAvisById(@PathVariable Long id) {
+        try {
+            Avis avis = avisService.getAvisById(id);
+            UserDTO user = userClient.getUserById(avis.getUtilisateurId());
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("avis", avis);
+            response.put("utilisateur", user);
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("Erreur : " + e.getMessage());
+        }
     }
 
-    // 📃 Récupérer tous les avis
-    @GetMapping("/GetallAvis")
+    @GetMapping
     public ResponseEntity<List<Avis>> getAllAvis() {
         return ResponseEntity.ok(avisService.getAllAvis());
     }
 
-    // 📌 Récupérer les avis liés à un voyage spécifique
-    @GetMapping("/voyage/{voyageId}")
-    public ResponseEntity<List<Avis>> getAvisByVoyageId(@PathVariable Long voyageId) {
-        return ResponseEntity.ok(avisService.getAvisByVoyageId(voyageId));
-    }
-
-    // 🙋‍♂️ Récupérer les avis d’un utilisateur
-    @GetMapping("/utilisateur/{utilisateurId}")
-    public ResponseEntity<List<Avis>> getAvisByUtilisateurId(@PathVariable Long utilisateurId) {
-        return ResponseEntity.ok(avisService.getAvisByUtilisateurId(utilisateurId));
-    }
-
-    // ✏️ Modifier un avis
-    @PutMapping("/updateAvis/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Avis> updateAvis(@PathVariable Long id, @RequestBody Avis updatedAvis) {
         return ResponseEntity.ok(avisService.updateAvis(id, updatedAvis));
     }
 
-    // ❌ Supprimer un avis
-    @DeleteMapping("/deleteAvis/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAvis(@PathVariable Long id) {
         avisService.deleteAvis(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // 🔍 Recherche avancée
+    @GetMapping("/recherche")
+    public List<Avis> rechercherAvis(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Long voyageId,
+            @RequestParam(required = false) Boolean approuve
+    ) {
+        String motCle = keyword != null ? keyword : "";
+        return avisRepository.searchAvis(motCle, voyageId, approuve);
+    }
+
+    // ⭐ Liste triée par pertinence (pondération)
+    @GetMapping("/pertinents")
+    public List<AvisAvecScoreDTO> avisParPertinence() {
+        List<Avis> tousLesAvis = avisRepository.findAll();
+
+        return tousLesAvis.stream()
+                .map(avis -> AvisAvecScoreDTO.builder()
+                        .id(avis.getId())
+                        .utilisateurId(avis.getUtilisateurId())
+                        .voyageId(avis.getVoyageId())
+                        .note(avis.getNote())
+                        .commentaire(avis.getCommentaire())
+                        .dateAvis(avis.getDateAvis())
+                        .approuve(avis.isApprouve())
+                        .scorePertinence(calculerScorePondere(avis))
+                        .build())
+                .sorted((a1, a2) -> Double.compare(a2.getScorePertinence(), a1.getScorePertinence()))
+                .toList();
+    }
+
+
+    // 🧠 Méthode de calcul du score pondéré
+    private double calculerScorePondere(Avis avis) {
+        double base = avis.getNote();
+        long joursDepuis = ChronoUnit.DAYS.between(avis.getDateAvis(), LocalDateTime.now());
+        double facteurTemps = 1.0 / (1 + (joursDepuis / 30.0)); // diminue tous les 30 jours
+        double facteurApprouve = avis.isApprouve() ? 1.2 : 0.8;
+        return base * facteurTemps * facteurApprouve;
+    }
+
+    // ✅ Endpoint pour approuver ou refuser un avis
+    @PutMapping("/{id}/moderer")
+    public ResponseEntity<Avis> approuverOuRefuserAvis(
+            @PathVariable Long id,
+            @RequestParam boolean approuve) {
+
+        Avis avisMisAJour = avisService.modererAvis(id, approuve);
+        return ResponseEntity.ok(avisMisAJour);
     }
 }
