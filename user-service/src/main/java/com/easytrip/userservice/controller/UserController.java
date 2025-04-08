@@ -84,4 +84,14 @@ public class UserController {
         }
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<User>> searchUsers(@RequestParam String q) {
+        return ResponseEntity.ok(userService.searchUsers(q));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> countUsers() {
+        return ResponseEntity.ok(userService.countUsers());
+    }
+
 }
