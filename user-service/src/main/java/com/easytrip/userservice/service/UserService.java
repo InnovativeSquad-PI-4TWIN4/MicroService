@@ -101,4 +101,12 @@ public class UserService {
         // Générer un token JWT
         return jwtUtil.generateToken(user.getEmail());
     }
+    public List<User> searchUsers(String query) {
+        return userRepository.findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(query, query);
+    }
+    public long countUsers() {
+        return userRepository.count();
+    }
+
+
 }
