@@ -6,6 +6,9 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,6 +23,9 @@ public class Reservation {
     private String dateDepart;
     private String dateRetour;
     private int nombrePersonnes;
+    @ElementCollection
+    private List<String> selectedOptions = new ArrayList<>();
+
 
     private Long userId; // ← Liaison avec un user du microservice "user"
 }

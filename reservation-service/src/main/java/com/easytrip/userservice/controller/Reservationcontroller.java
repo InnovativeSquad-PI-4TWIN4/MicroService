@@ -53,16 +53,19 @@ public class Reservationcontroller {
             return ResponseEntity.notFound().build();
         }
     }
+
     @GetMapping("/statistics")
     public ResponseEntity<Map<String, Object>> getStatistics() {
         Map<String, Object> stats = reservationService.getStatistics();
         return ResponseEntity.ok(stats);
     }
+
     @GetMapping("/recommendations/{userId}")
     public ResponseEntity<List<String>> getRecommendations(@PathVariable Long userId) {
         List<String> recommendations = reservationService.recommendDestinations(userId);
         return ResponseEntity.ok(recommendations);
     }
+
     @GetMapping("/{id}/ticket")
     public ResponseEntity<byte[]> generateTicket(@PathVariable Long id) throws Exception {
         byte[] pdf = reservationService.generateReservationTicket(id);
@@ -72,6 +75,25 @@ public class Reservationcontroller {
                 .body(pdf);
     }
 
+    @GetMapping("/{id}/options")
+    public ResponseEntity<List<String>> getOptions(@PathVariable Long id) {
+        List<String> options = reservationService.getAvailableOptionsForReservation(id);
+        return ResponseEntity.ok(options);
+    }
 
+    @PostMapping("/{id}/options")
+    public ResponseEntity<?> addOptionsToReservation(
+            @PathVariable Long id,
+            @RequestBody List<String> selectedOptions) {
 
+        Reservation reservation = reservationService.getReservationById(id);
+        if (reservation == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        reservation.setSelectedOptions(selectedOptions);
+        reservationService.updateReservation(id, reservation);
+
+        return ResponseEntity.ok("Options ajoutées avec succès !");
+    }
 }
