@@ -13,6 +13,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -20,12 +21,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.io.IOException;
-
 
 @Service
 public class ReservationService implements IReservationService {
@@ -33,6 +30,7 @@ public class ReservationService implements IReservationService {
     private final ReservationRepository reservationRepository;
     private final UserClient userClient;
 
+    @Autowired
     public ReservationService(ReservationRepository reservationRepository, UserClient userClient) {
         this.reservationRepository = reservationRepository;
         this.userClient = userClient;
@@ -123,7 +121,7 @@ public class ReservationService implements IReservationService {
         }
     }
 
-    public byte[]  generateReservationTicket(Long reservationId) throws IOException, DocumentException, WriterException {
+    public byte[] generateReservationTicket(Long reservationId) throws IOException, DocumentException, WriterException {
         Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
         if (reservation == null) throw new IllegalArgumentException("Reservation not found");
 
@@ -147,5 +145,27 @@ public class ReservationService implements IReservationService {
         Files.delete(tempQR);
 
         return pdfOutput.toByteArray();
+    }
+
+    // Liste d’options proposées
+    public List<String> getAvailableOptionsForReservation(Long reservationId) {
+        return List.of("Bagage supplémentaire", "Repas à bord", "Assurance voyage");
+    }
+
+    // Ajouter les options à une réservation
+    public Reservation addOptionsToReservation(Long reservationId, List<String> options) {
+        Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
+        if (reservation == null) throw new RuntimeException("Réservation non trouvée");
+
+        reservation.getSelectedOptions().addAll(options);
+        return reservationRepository.save(reservation);
+    }
+
+    // Récupérer les options sélectionnées d'une réservation
+    public List<String> getSelectedOptions(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
+        if (reservation == null) throw new RuntimeException("Réservation non trouvée");
+
+        return reservation.getSelectedOptions();
     }
 }

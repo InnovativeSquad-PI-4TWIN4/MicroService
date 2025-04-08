@@ -29,5 +29,8 @@ public interface IReservationService {
 
 
     public byte[] generateReservationTicket(Long reservationId) throws IOException, DocumentException, WriterException;
+    List<String> getAvailableOptionsForReservation(Long id);
 
+
+    Reservation addOptionsToReservation(Long id, List<String> options);
 }
