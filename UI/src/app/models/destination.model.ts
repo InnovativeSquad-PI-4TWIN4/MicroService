@@ -4,4 +4,9 @@ export interface Destination {
   country: string;
   description?: string;
   averagePrice: number;
+  viewCount?: number;
+  category: string;
+  climate: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

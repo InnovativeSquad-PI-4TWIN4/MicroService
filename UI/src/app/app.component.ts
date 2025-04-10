@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { DestinationComponent } from './destination/destination.component';
+import { provideHttpClient, withFetch } from '@angular/common/http'; // Add withFetch
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -11,12 +10,11 @@ import { DestinationComponent } from './destination/destination.component';
   imports: [
     CommonModule,
     RouterOutlet,
-    HttpClientModule,
     FormsModule,
-    DestinationComponent,
-
+    ReactiveFormsModule
+    // Removed DestinationComponent from imports since it's routed
   ],
-  templateUrl: './app.component.html',
+  template: `<router-outlet></router-outlet>`,
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
