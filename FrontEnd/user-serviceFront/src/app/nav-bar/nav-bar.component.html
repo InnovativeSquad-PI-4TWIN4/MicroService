@@ -1,0 +1,70 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container-fluid">
+    <!-- Logo avec un lien vers la page d'accueil -->
+    <a class="navbar-brand" routerLink="/" style="font-weight: bold; color: #1d3557;">
+      <img src="assets/images/logo.png" alt="EasyTrip Logo" style="width: 50px; height: 50px; margin-right: 10px;"> EasyTrip
+    </a>
+
+    <!-- Bouton pour la version mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+
+        <!-- Non connecté -->
+        <li class="nav-item ms-3" *ngIf="!isLoggedIn()">
+          <a class="nav-link" routerLink="/signin">
+            <i class="fas fa-sign-in-alt"></i> Sign In
+          </a>
+        </li>
+        <li class="nav-item ms-3" *ngIf="!isLoggedIn()">
+          <a class="nav-link" routerLink="/signup">
+            <i class="fas fa-user-plus"></i> Sign Up
+          </a>
+        </li>
+
+        <!-- Connecté -->
+        <li class="nav-item ms-3" *ngIf="isLoggedIn()">
+          <a class="nav-link" routerLink="/home">
+            <i class="fas fa-home"></i> Home
+          </a>
+        </li>
+        <li class="nav-item ms-3" *ngIf="isLoggedIn()">
+          <a class="nav-link" routerLink="/destination">
+            <i class="fas fa-map-marker-alt"></i> Destination
+          </a>
+        </li>
+        <li class="nav-item ms-3" *ngIf="isLoggedIn()">
+          <a class="nav-link" routerLink="/agences">
+            <i class="fas fa-building"></i> Agences
+          </a>
+        </li>
+        <li class="nav-item ms-3" *ngIf="isLoggedIn()">
+          <a class="nav-link" routerLink="/avis">
+            <i class="fas fa-comment-dots"></i> Avis
+          </a>
+        </li>
+        <li class="nav-item ms-3" *ngIf="isLoggedIn()">
+          <a class="nav-link" routerLink="/transport">
+            <i class="fas fa-bus"></i> Transport
+          </a>
+        </li>
+        <li class="nav-item ms-3" *ngIf="isLoggedIn()">
+          <a class="nav-link" routerLink="/reservation">
+            <i class="fas fa-calendar-check"></i> Reservation
+          </a>
+        </li>
+
+        <!-- Lien de déconnexion -->
+        <li class="nav-item ms-3" *ngIf="isLoggedIn()">
+          <a class="nav-link text-danger" (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>

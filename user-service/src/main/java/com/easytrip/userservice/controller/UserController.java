@@ -7,11 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
     private final UserService userService;
 
@@ -63,17 +65,22 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody User user) {
+    public ResponseEntity<Map<String, String>> signup(@RequestBody User user) {
         userService.registerUser(user);
-        return ResponseEntity.ok("User registered successfully");
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "User registered successfully");
+
+        return ResponseEntity.ok(response);
     }
+
 
     // Endpoint pour la connexion
     @PostMapping("/signin")
-    public ResponseEntity<?> signin(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<?> signin(@RequestBody User user) {
         try {
             // Appelle le service qui retourne un token
-            String token = userService.authenticateUser(email, password);
+            String token = userService.authenticateUser(user.getEmail(), user.getPassword());
 
             // Retourne le token dans une réponse JSON
             return ResponseEntity.ok().body(
@@ -83,6 +90,7 @@ public class UserController {
             return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
         }
     }
+
 
     @GetMapping("/search")
     public ResponseEntity<List<User>> searchUsers(@RequestParam String q) {
