@@ -50,8 +50,6 @@ public class AvissController {
             return ResponseEntity.status(500).body("Erreur lors de la création de l'avis : " + e.getMessage());
         }
     }
-
-
     @GetMapping("/getavis/{id}")
     public ResponseEntity<?> getAvisById(@PathVariable Long id) {
         try {
@@ -68,7 +66,6 @@ public class AvissController {
             return ResponseEntity.status(404).body("Erreur : " + e.getMessage());
         }
     }
-
     @GetMapping
     public ResponseEntity<List<Avis>> getAllAvis() {
         return ResponseEntity.ok(avisService.getAllAvis());

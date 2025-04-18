@@ -79,17 +79,19 @@ public class UserController {
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody User user) {
         try {
-            // Appelle le service qui retourne un token
             String token = userService.authenticateUser(user.getEmail(), user.getPassword());
-
-            // Retourne le token dans une réponse JSON
-            return ResponseEntity.ok().body(
-                    Map.of("token", token, "message", "User authenticated successfully")
-            );
+            User fullUser = userService.findByEmail(user.getEmail());
+            return ResponseEntity.ok(Map.of(
+                    "message", "User authenticated",
+                    "token", token,
+                    "user", fullUser
+            ));
         } catch (RuntimeException e) {
             return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
         }
     }
+
+
 
 
     @GetMapping("/search")

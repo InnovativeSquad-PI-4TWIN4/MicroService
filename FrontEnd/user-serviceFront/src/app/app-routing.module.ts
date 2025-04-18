@@ -5,13 +5,20 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { AddAvisComponent } from './Avis-Service/add-avis/add-avis.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
-
+import { AddReservationComponent } from './Reservation-Service/add-reservation/add-reservation.component';
+import { ListReservationsComponent } from './Reservation-Service/list-reservations/list-reservations.component';
+import { EditReservationComponent } from './Reservation-Service/edit-reservation/edit-reservation.component';
 const routes: Routes = [
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'home', component: HomeComponent },
   { path: 'avis', component: AddAvisComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reservation/add', component: AddReservationComponent },
+  { path: 'reservation/list', component: ListReservationsComponent },
+  { path: 'reservation/edit/:id', component: EditReservationComponent },
+
+
 
   { path: '', redirectTo: 'signin', pathMatch: 'full' }
 ];
