@@ -29,11 +29,9 @@ public class Reservationcontroller {
     }
 
     @PostMapping
-    public Reservation create(@RequestBody Reservation reservation) {
-        System.out.println("🔍 userId = " + reservation.getUserId());
-        return reservationService.createReservation(reservation);
+    public Reservation create(@RequestBody Reservation r) {
+        return reservationService.createReservation(r);
     }
-
 
     @PutMapping("/{id}")
     public Reservation update(@PathVariable Long id, @RequestBody Reservation r) {

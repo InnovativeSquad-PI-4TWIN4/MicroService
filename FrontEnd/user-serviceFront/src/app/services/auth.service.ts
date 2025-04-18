@@ -15,9 +15,10 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/signup`, user);
   }
 
-  signIn(user: User): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(`${this.baseUrl}/signin`, user);
+  signIn(user: User): Observable<{ token: string, message: string, user: User }> {
+    return this.http.post<{ token: string, message: string, user: User }>(`${this.baseUrl}/signin`, user);
   }
+  
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
@@ -35,7 +36,12 @@ export class AuthService {
   
   getCurrentUserId(): number {
     const user = localStorage.getItem('user');
-    return user ? JSON.parse(user).id : 0;
+    try {
+      return user ? JSON.parse(user).id : 0;
+    } catch (e) {
+      return 0;
+    }
+    
   }
 
   sendResetPasswordEmail(email: string): Observable<any> {

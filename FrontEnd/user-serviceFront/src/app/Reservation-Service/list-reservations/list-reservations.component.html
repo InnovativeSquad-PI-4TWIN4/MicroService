@@ -1,0 +1,35 @@
+<div class="container mt-4">
+    <h2 class="text-center">Liste des Réservations</h2>
+    <table class="table table-striped mt-3">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Destination</th>
+          <th>Date de départ</th>
+          <th>Nombre de personnes</th>
+          <th>ID utilisateur</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of reservations; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ reservation.destination }}</td>
+          <td>{{ reservation.dateDepart }}</td>
+          <td>{{ reservation.nombrePersonnes }}</td>
+          <td>{{ reservation.userId }}</td>
+          <td>
+            <button class="btn btn-sm btn-warning me-2"
+                    [routerLink]="['/reservation/edit', reservation.id]">
+              Modifier
+            </button>
+            <button class="btn btn-sm btn-danger"
+                    (click)="deleteReservation(reservation.id)">
+              Supprimer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

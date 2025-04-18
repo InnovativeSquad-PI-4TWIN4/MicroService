@@ -12,6 +12,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { AddAvisComponent } from './Avis-Service/add-avis/add-avis.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { AddReservationComponent } from './Reservation-Service/add-reservation/add-reservation.component';
+import { ListReservationsComponent } from './Reservation-Service/list-reservations/list-reservations.component';
+import { EditReservationComponent } from './Reservation-Service/edit-reservation/edit-reservation.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +24,10 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
     NavBarComponent,
     HomeComponent,
     AddAvisComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    AddReservationComponent,
+    ListReservationsComponent,
+    EditReservationComponent
     
   ],
   imports: [
