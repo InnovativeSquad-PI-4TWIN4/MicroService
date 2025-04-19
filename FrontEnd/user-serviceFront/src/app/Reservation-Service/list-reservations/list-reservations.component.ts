@@ -60,4 +60,16 @@ export class ListReservationsComponent implements OnInit {
   editReservation(reservation: any): void {
     this.router.navigate(['/reservation/edit', reservation.id]);
   }
+  download(resId: number): void {
+    this.reservationService.downloadTicket(resId).subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ticket-${resId}.pdf`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+  
+  
 }
