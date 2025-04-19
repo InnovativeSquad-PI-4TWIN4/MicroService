@@ -16,6 +16,7 @@ import { AddReservationComponent } from './Reservation-Service/add-reservation/a
 import { ListReservationsComponent } from './Reservation-Service/list-reservations/list-reservations.component';
 import { EditReservationComponent } from './Reservation-Service/edit-reservation/edit-reservation.component';
 import { ProfileComponent } from './auth/profile/profile.component';
+import { StatisticsComponent } from './Reservation-Service/statistics/statistics.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,8 @@ import { ProfileComponent } from './auth/profile/profile.component';
     AddReservationComponent,
     ListReservationsComponent,
     EditReservationComponent,
-    ProfileComponent
+    ProfileComponent,
+    StatisticsComponent
     
   ],
   imports: [

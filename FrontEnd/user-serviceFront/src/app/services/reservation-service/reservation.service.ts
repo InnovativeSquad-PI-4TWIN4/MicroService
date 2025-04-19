@@ -46,4 +46,9 @@ export class ReservationService {
     });
     return this.http.put(`${this.apiUrl}/${id}`, reservation, { headers });
   }
+
+  getStatistics(): Observable<any> {
+    return this.http.get('http://localhost:8085/api/reservations/statistics');
+  }
+  
 }

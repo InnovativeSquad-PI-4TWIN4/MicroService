@@ -9,6 +9,7 @@ import { AddReservationComponent } from './Reservation-Service/add-reservation/a
 import { ListReservationsComponent } from './Reservation-Service/list-reservations/list-reservations.component';
 import { EditReservationComponent } from './Reservation-Service/edit-reservation/edit-reservation.component';
 import { ProfileComponent } from './auth/profile/profile.component';
+import { StatisticsComponent } from './Reservation-Service/statistics/statistics.component';
 const routes: Routes = [
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
@@ -19,6 +20,8 @@ const routes: Routes = [
   { path: 'reservation/list', component: ListReservationsComponent },
   { path: 'reservation/edit/:id', component: EditReservationComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'reservation/statistics', component: StatisticsComponent },
+
 
 
   { path: '', redirectTo: 'signin', pathMatch: 'full' }
