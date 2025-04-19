@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-reservation',
@@ -14,7 +15,7 @@ export class AddReservationComponent implements OnInit {
     userId: null
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {} // ✅ injecte Router
 
   ngOnInit(): void {
     const user = localStorage.getItem('user');
@@ -41,7 +42,8 @@ export class AddReservationComponent implements OnInit {
     this.http.post('http://localhost:8085/api/reservations', this.reservation, { headers })
       .subscribe({
         next: res => {
-          alert('Réservation enregistrée avec succès !');
+          alert('✅ Réservation enregistrée avec succès !');
+          this.router.navigate(['/reservation/list']); // ✅ Redirection ici
         },
         error: err => {
           console.error("❌ Erreur:", err);
