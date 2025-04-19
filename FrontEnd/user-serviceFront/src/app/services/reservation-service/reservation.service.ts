@@ -50,5 +50,13 @@ export class ReservationService {
   getStatistics(): Observable<any> {
     return this.http.get('http://localhost:8085/api/reservations/statistics');
   }
-  
+
+  getRecommendations(userId: number): Observable<string[]> {
+    return this.http.get<string[]>(`http://localhost:8085/api/reservations/recommendations/${userId}`);
+  }
+  downloadTicket(resId: number): Observable<Blob> {
+    return this.http.get(`http://localhost:8085/api/reservations/${resId}/ticket`, {
+      responseType: 'blob'
+    });
+  }
 }
