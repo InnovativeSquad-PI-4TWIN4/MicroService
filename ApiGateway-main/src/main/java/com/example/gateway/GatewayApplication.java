@@ -24,6 +24,9 @@ public class GatewayApplication {
                 .route("transport-service", r -> r
                         .path("/api/transports/**")
                         .uri("http://localhost:8081")) // nom exact de ton application Eureka
+                .route("user-service", r -> r
+                        .path("/api/users/**")
+                        .uri("http://localhost:8082"))
 
                 .build();
     }

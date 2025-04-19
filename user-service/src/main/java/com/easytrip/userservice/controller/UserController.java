@@ -93,5 +93,9 @@ public class UserController {
     public ResponseEntity<Long> countUsers() {
         return ResponseEntity.ok(userService.countUsers());
     }
-
+    // New endpoint to check if a user exists by ID
+    @GetMapping("/{id}/exists")
+    public Boolean userExists(@PathVariable("id") Long id) {
+        return userService.userExists(id);
+    }
 }
