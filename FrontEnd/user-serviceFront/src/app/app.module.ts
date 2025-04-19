@@ -15,6 +15,7 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { AddReservationComponent } from './Reservation-Service/add-reservation/add-reservation.component';
 import { ListReservationsComponent } from './Reservation-Service/list-reservations/list-reservations.component';
 import { EditReservationComponent } from './Reservation-Service/edit-reservation/edit-reservation.component';
+import { ProfileComponent } from './auth/profile/profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +28,8 @@ import { EditReservationComponent } from './Reservation-Service/edit-reservation
     ForgotPasswordComponent,
     AddReservationComponent,
     ListReservationsComponent,
-    EditReservationComponent
+    EditReservationComponent,
+    ProfileComponent
     
   ],
   imports: [

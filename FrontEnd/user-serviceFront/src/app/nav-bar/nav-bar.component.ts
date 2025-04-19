@@ -1,5 +1,6 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { User } from '../models/User';
 
 @Component({
   selector: 'app-nav-bar',
@@ -7,18 +8,45 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-  constructor(public authService: AuthService) { }
+  user: User | null = null;
+  userInitials: string = '';
+  dropdownOpen = false;
 
-  ngOnInit(): void {}
+  constructor(public authService: AuthService) {}
 
-  // Vérifier si l'utilisateur est connecté
+  ngOnInit(): void {
+    this.authService.currentUser$.subscribe((user: User | null) => {
+      this.user = user;
+      if (user) {
+        this.userInitials = `${user.firstname?.[0] || ''}${user.lastname?.[0] || ''}`.toUpperCase();
+      } else {
+        this.userInitials = '';
+      }
+    });
+  }
+  
+
+  // ✅ Vérifie si connecté
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
 
-  // Se déconnecter
+  // ✅ Déconnexion
   logout(): void {
     this.authService.logout();
-    window.location.href='/signin';
+    window.location.href = '/signin';
+  }
+
+  // ✅ Retourne les initiales dynamiquement (non utilisée ici mais propre)
+  getInitials(): string {
+    if (!this.user) return '';
+    const firstname = this.user.firstname || '';
+    const lastname = this.user.lastname || '';
+    return `${firstname[0] || ''}${lastname[0] || ''}`.toUpperCase();
+  }
+
+  // ✅ Toggle du dropdown
+  toggleDropdown(): void {
+    this.dropdownOpen = !this.dropdownOpen;
   }
 }

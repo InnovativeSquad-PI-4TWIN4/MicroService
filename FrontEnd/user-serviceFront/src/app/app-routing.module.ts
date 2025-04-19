@@ -8,6 +8,7 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { AddReservationComponent } from './Reservation-Service/add-reservation/add-reservation.component';
 import { ListReservationsComponent } from './Reservation-Service/list-reservations/list-reservations.component';
 import { EditReservationComponent } from './Reservation-Service/edit-reservation/edit-reservation.component';
+import { ProfileComponent } from './auth/profile/profile.component';
 const routes: Routes = [
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
@@ -17,7 +18,7 @@ const routes: Routes = [
   { path: 'reservation/add', component: AddReservationComponent },
   { path: 'reservation/list', component: ListReservationsComponent },
   { path: 'reservation/edit/:id', component: EditReservationComponent },
-
+  { path: 'profile', component: ProfileComponent },
 
 
   { path: '', redirectTo: 'signin', pathMatch: 'full' }
