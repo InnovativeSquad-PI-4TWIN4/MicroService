@@ -1,8 +1,8 @@
-package tn.esprit.examen.repositories;
+    package tn.esprit.examen.repositories;
 
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import tn.esprit.examen.entities.Agence;
+    import org.springframework.data.mongodb.repository.MongoRepository;
+    import tn.esprit.examen.entities.Agence;
 
-public interface AgenceRepository  extends MongoRepository<Agence,String> {
-}
+    public interface AgenceRepository  extends MongoRepository<Agence,String> {
+    }
