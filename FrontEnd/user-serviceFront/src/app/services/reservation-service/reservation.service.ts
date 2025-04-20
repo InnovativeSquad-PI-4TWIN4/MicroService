@@ -59,4 +59,21 @@ export class ReservationService {
       responseType: 'blob'
     });
   }
+
+  // Obtenir les options disponibles
+// Ajouter des options à une réservation
+addOptions(reservationId: number, selectedOptions: string[]): Observable<any> {
+  return this.http.post(`http://localhost:8085/api/reservations/${reservationId}/options`, selectedOptions);
+}
+
+// ✅ Récupérer les options sélectionnées (déjà cochées)
+getAvailableOptions(reservationId: number): Observable<string[]> {
+  return this.http.get<string[]>(`${this.apiUrl}/${reservationId}/options`);
+}
+
+// ✅ Obtenir les options sélectionnées
+getSelectedOptions(reservationId: number): Observable<string[]> {
+  return this.http.get<string[]>(`${this.apiUrl}/${reservationId}/options`);
+}
+
 }
