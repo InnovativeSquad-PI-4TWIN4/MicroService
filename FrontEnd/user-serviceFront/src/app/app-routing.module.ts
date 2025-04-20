@@ -12,6 +12,12 @@ import { ProfileComponent } from './auth/profile/profile.component';
 import { StatisticsComponent } from './Reservation-Service/statistics/statistics.component';
 import { RecommendationsComponent } from './Reservation-Service/recommendations/recommendations.component';
 import { ReservationOptionsComponent } from './Reservation-Service/reservation-options/reservation-options.component';
+import { AgenceListComponent } from './Agence-Service/agence-list/agence-list.component';
+import { AgenceFormComponent } from './Agence-Service/agence-form/agence-form.component';
+import { AgenceDetailsComponent } from './Agence-Service/agence-details/agence-details.component';
+import { AgenceSearchComponent } from './Agence-Service/agence-search/agence-search.component';
+import { AgenceExportComponent } from './Agence-Service/agence-export/agence-export.component';
+import { AgenceEmailComponent } from './Agence-Service/agence-email/agence-email.component';
 const routes: Routes = [
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
@@ -25,7 +31,13 @@ const routes: Routes = [
   { path: 'reservation/statistics', component: StatisticsComponent },
   { path: 'recommendations', component: RecommendationsComponent },
   { path: 'reservation/:id/options', component: ReservationOptionsComponent },
-
+  { path: 'agences', component: AgenceListComponent },
+  { path: 'agence/add', component: AgenceFormComponent },
+  { path: 'agence/edit/:id', component: AgenceFormComponent },
+  { path: 'agence/:id', component: AgenceDetailsComponent },
+  { path: 'search', component: AgenceSearchComponent },
+  { path: 'export', component: AgenceExportComponent },
+  { path: 'email', component: AgenceEmailComponent },
   { path: '', redirectTo: 'signin', pathMatch: 'full' }
 ];
 
