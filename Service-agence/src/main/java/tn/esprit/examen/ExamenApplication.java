@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @EnableDiscoveryClient    //EurekaClient
-@EnableFeignClients
+@EnableFeignClients    //gateway
 public class ExamenApplication {
 
 	public static void main(String[] args) {
