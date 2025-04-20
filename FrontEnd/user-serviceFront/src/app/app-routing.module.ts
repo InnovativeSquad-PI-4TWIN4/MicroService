@@ -11,6 +11,7 @@ import { EditReservationComponent } from './Reservation-Service/edit-reservation
 import { ProfileComponent } from './auth/profile/profile.component';
 import { StatisticsComponent } from './Reservation-Service/statistics/statistics.component';
 import { RecommendationsComponent } from './Reservation-Service/recommendations/recommendations.component';
+import { ReservationOptionsComponent } from './Reservation-Service/reservation-options/reservation-options.component';
 const routes: Routes = [
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
@@ -23,6 +24,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'reservation/statistics', component: StatisticsComponent },
   { path: 'recommendations', component: RecommendationsComponent },
+  { path: 'reservation/:id/options', component: ReservationOptionsComponent },
+
   { path: '', redirectTo: 'signin', pathMatch: 'full' }
 ];
 
