@@ -18,6 +18,9 @@ import { AgenceDetailsComponent } from './Agence-Service/agence-details/agence-d
 import { AgenceSearchComponent } from './Agence-Service/agence-search/agence-search.component';
 import { AgenceExportComponent } from './Agence-Service/agence-export/agence-export.component';
 import { AgenceEmailComponent } from './Agence-Service/agence-email/agence-email.component';
+import { DestinationComponent } from './destination/destination.component';
+
+
 const routes: Routes = [
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
@@ -38,7 +41,8 @@ const routes: Routes = [
   { path: 'search', component: AgenceSearchComponent },
   { path: 'export', component: AgenceExportComponent },
   { path: 'email', component: AgenceEmailComponent },
-  { path: '', redirectTo: 'signin', pathMatch: 'full' }
+  { path: '', redirectTo: 'signin', pathMatch: 'full' },
+  { path: 'destinations', component: DestinationComponent }
 ];
 
 @NgModule({

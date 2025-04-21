@@ -49,7 +49,7 @@ import { AgenceResponsableComponent } from './Agence-Service/agence-responsable/
     AgenceSearchComponent,
     AgenceExportComponent,
     AgenceEmailComponent,
-    AgenceResponsableComponent
+    AgenceResponsableComponent,
     
     
   ],
