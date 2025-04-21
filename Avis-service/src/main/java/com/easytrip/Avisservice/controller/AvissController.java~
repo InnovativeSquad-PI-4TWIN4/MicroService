@@ -93,37 +93,17 @@ public ResponseEntity<?> createAvis(@RequestBody Avis avis, @RequestHeader("X-Us
 //    public ResponseEntity<Avis> updateAvis(@PathVariable Long id, @RequestBody Avis updatedAvis) {
 //        return ResponseEntity.ok(avisService.updateAvis(id, updatedAvis));
 //    }
-//@PutMapping("/{id}")
-//public ResponseEntity<Avis> updateAvis(@PathVariable Long id, @RequestBody Avis updatedAvis, @RequestHeader("X-User-Id") Long userId) {
-//    Avis avis = avisService.getAvisById(id);
-//
-//    // Vérifier si l'ID utilisateur correspond à celui de l'avis
-//    if (!avis.getUtilisateurId().equals(userId)) {
-//        return ResponseEntity.status(403).body(null); // Forbidden si l'utilisateur n'est pas le propriétaire
-//    }
-//
-//    return ResponseEntity.ok(avisService.updateAvis(id, updatedAvis));
-//}
+@PutMapping("/{id}")
+public ResponseEntity<Avis> updateAvis(@PathVariable Long id, @RequestBody Avis updatedAvis, @RequestHeader("X-User-Id") Long userId) {
+    Avis avis = avisService.getAvisById(id);
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Avis> updateAvis(
-            @PathVariable Long id,
-            @RequestBody Avis updatedAvis,
-            @RequestHeader("X-User-Id") Long userId) {
-
-        // Récupérer l'avis existant
-        Avis avis = avisService.getAvisById(id);
-
-        // Vérifier si l'utilisateur correspond à l'auteur de l'avis
-        if (!avis.getUtilisateurId().equals(userId)) {
-            return ResponseEntity.status(403).body(null);  // Forbidden si l'utilisateur n'est pas le propriétaire
-        }
-
-        // Mettre à jour l'avis
-        Avis updated = avisService.updateAvis(id, updatedAvis);
-        return ResponseEntity.ok(updated);
+    // Vérifier si l'ID utilisateur correspond à celui de l'avis
+    if (!avis.getUtilisateurId().equals(userId)) {
+        return ResponseEntity.status(403).body(null); // Forbidden si l'utilisateur n'est pas le propriétaire
     }
 
+    return ResponseEntity.ok(avisService.updateAvis(id, updatedAvis));
+}
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAvis(@PathVariable Long id, @RequestHeader("X-User-Id") Long userId) {
         Avis avis = avisService.getAvisById(id);
