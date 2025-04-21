@@ -20,6 +20,16 @@ spring:
           uri: lb://user-service
           predicates:
             - Path=/api/users/**
+        - id: reservation-service
+          uri: lb://reservation-service
+          predicates:
+            - Path=/api/reservations/**
+        - id: destination-service
+          uri: lb://gestion-destination-service
+          predicates:
+            - Path=/api/destinations/**
+          filters:
+            - StripPrefix=2
       globalcors:
         cors-configurations:
           '[/**]':

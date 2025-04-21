@@ -64,7 +64,8 @@
               "browserTarget": "user-serviceFront:build:production"
             },
             "development": {
-              "browserTarget": "user-serviceFront:build:development"
+              "browserTarget": "user-serviceFront:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
