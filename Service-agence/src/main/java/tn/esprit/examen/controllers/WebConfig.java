@@ -1,4 +1,4 @@
-package tn.esprit.examen.controllers;
+/*package tn.esprit.examen.controllers;
 
 
 import org.springframework.context.annotation.Configuration;
@@ -15,4 +15,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }
-}
+}*/

@@ -8,7 +8,7 @@ import { UserDTO } from 'src/app/models/user-dto';
   providedIn: 'root'
 })
 export class AgenceService {
-  private apiUrl = 'http://localhost:8089/api/agences';
+  private apiUrl = 'http://localhost:7000/api/agences';
 
   constructor(private http: HttpClient) {}
 
