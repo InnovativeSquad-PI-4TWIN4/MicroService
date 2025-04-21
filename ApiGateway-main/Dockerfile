@@ -1,4 +1,5 @@
-FROM openjdk:17
-EXPOSE 8084
-ADD target/Gateway-0.0.1-SNAPSHOT.jar gatewayserver.jar
-ENTRYPOINT ["java", "-jar", "gatewayserver.jar"]
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY target/service-gateway-0.0.1-SNAPSHOT.jar gateway.jar
+EXPOSE 7000
+ENTRYPOINT ["java", "-jar", "gateway.jar"]
