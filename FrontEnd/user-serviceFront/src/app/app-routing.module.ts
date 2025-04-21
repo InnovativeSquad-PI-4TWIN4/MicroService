@@ -21,7 +21,16 @@ import { AgenceDetailsComponent } from './Agence-Service/agence-details/agence-d
 import { AgenceSearchComponent } from './Agence-Service/agence-search/agence-search.component';
 import { AgenceExportComponent } from './Agence-Service/agence-export/agence-export.component';
 import { AgenceEmailComponent } from './Agence-Service/agence-email/agence-email.component';
+
+import { ApiweatherComponent } from './Transport-service/apiweather/apiweather.component';  // Assurez-vous d'importer le composant
+
+import { AddTransportComponent } from './Transport-service/add-transport/add-transport.component';
+import { EditTransportComponent } from './Transport-service/edit-transport/edit-transport.component';
+import { ListTransportComponent } from './Transport-service/list-transports/list-transport.component';
+import { TransportDetailComponent } from './Transport-service/transport-detail/transport-detail.component';
+
 import { DestinationComponent } from './destination/destination.component';
+
 
 const routes: Routes = [
   { path: 'signin', component: SigninComponent },
@@ -46,12 +55,22 @@ const routes: Routes = [
   { path: 'search', component: AgenceSearchComponent },
   { path: 'export', component: AgenceExportComponent },
   { path: 'email', component: AgenceEmailComponent },
+
+  { path: 'add-transport', component: AddTransportComponent },
+  { path: 'edit-transport/:id', component: EditTransportComponent },
+  { path: 'transports', component: ListTransportComponent },
+  { path: 'transport/:id', component: TransportDetailComponent },
+  { path: 'weather/:id', component: ApiweatherComponent },  // Nouvelle route pour la météo
+  { path: '', redirectTo: 'home', pathMatch: 'full' }
+
   { path: '', redirectTo: 'signin', pathMatch: 'full' },
   { path: 'destinations', component: DestinationComponent }
+
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  
+exports: [RouterModule]
 })
 export class AppRoutingModule { }

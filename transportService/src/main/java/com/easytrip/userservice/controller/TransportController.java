@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/transports") // plus cohérent avec la ressource
+@CrossOrigin(origins = "http://localhost:4200")
 public class TransportController {
 
     @Autowired
@@ -33,6 +34,8 @@ public class TransportController {
     public Transport create(@RequestBody Transport transport) {
         return transportService.createTransport(transport);
     }
+
+
 
     @PutMapping("/{id}")
     public Transport update(@PathVariable String id, @RequestBody Transport updatedTransport) {
