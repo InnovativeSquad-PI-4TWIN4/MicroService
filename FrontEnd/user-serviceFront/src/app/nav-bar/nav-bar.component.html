@@ -1,12 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
   <div class="container-fluid">
-    <!-- Logo avec un lien vers la page d'accueil -->
+    <!-- Logo -->
     <a class="navbar-brand" routerLink="/" style="font-weight: bold; color: #1d3557;">
       <img src="assets/images/logo.png" alt="EasyTrip Logo" style="width: 50px; height: 50px; margin-right: 10px;"> EasyTrip
     </a>
 
-    <!-- Bouton pour la version mobile -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <!-- Mobile toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -32,7 +33,7 @@
           </a>
         </li>
         <li class="nav-item ms-3" *ngIf="isLoggedIn()">
-          <a class="nav-link" routerLink="/destination">
+          <a class="nav-link" routerLink="/destinations">
             <i class="fas fa-map-marker-alt"></i> Destination
           </a>
         </li>
@@ -51,18 +52,38 @@
             <i class="fas fa-bus"></i> Transport
           </a>
         </li>
-        <li class="nav-item ms-3" *ngIf="isLoggedIn()">
-          <a class="nav-link" routerLink="/reservation">
-            <i class="fas fa-calendar-check"></i> Reservation
+
+        <!-- ✅ Sous-menu Réservation -->
+        <li class="nav-item dropdown ms-3" *ngIf="isLoggedIn()">
+          <a class="nav-link dropdown-toggle" href="#" id="reservationDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-calendar-check"></i> Réservation
           </a>
+          <ul class="dropdown-menu" aria-labelledby="reservationDropdown">
+            <li><a class="dropdown-item" routerLink="/reservation/list">Liste des réservations</a></li>
+            <li><a class="dropdown-item" routerLink="/reservation/add">Ajouter une réservation</a></li>
+            <li><a class="dropdown-item" routerLink="/reservation/statistics">Statistiques</a></li>
+
+          </ul>
         </li>
 
-        <!-- Lien de déconnexion -->
-        <li class="nav-item ms-3" *ngIf="isLoggedIn()">
-          <a class="nav-link text-danger" (click)="logout()">
-            <i class="fas fa-sign-out-alt"></i> Logout
-          </a>
-        </li>
+        <!-- ✅ Cercle avec initiales + menu profil/déconnexion -->
+       <!-- Avatar utilisateur -->
+<li class="nav-item dropdown ms-3" *ngIf="isLoggedIn()" style="position: relative;">
+  <div class="user-initials" (click)="toggleDropdown()">
+    {{ getInitials() }}
+  </div>
+
+  <!-- Dropdown -->
+  <div *ngIf="dropdownOpen" class="user-dropdown">
+    <a routerLink="/profile">👤 Mon Profil</a>
+    <a (click)="logout()">
+      <i class="fas fa-sign-out-alt me-2 text-warning"></i> Déconnexion
+    </a>
+    
+  </div>
+</li>
+
 
       </ul>
     </div>

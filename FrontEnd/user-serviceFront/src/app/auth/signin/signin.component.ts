@@ -1,30 +1,34 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 import { User } from '../../models/User';
-import { Router } from '@angular/router'; // Ajouté pour rediriger l'utilisateur après la connexion
 
 @Component({
   selector: 'app-signin',
-  templateUrl: './signin.component.html'
+  templateUrl: './signin.component.html',
+  styleUrls: ['./signin.component.css']
 })
 export class SigninComponent {
   user: User = { email: '', password: '' };
-  errorMessage: string = ''; // Message d'erreur pour afficher si connexion échoue
+  errorMessage: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(): void {
     this.authService.signIn(this.user).subscribe({
       next: res => {
-        console.log('Signed in successfully!', res);
-        localStorage.setItem('token', res.token); // Sauvegarde du token dans le localStorage
-        
-        // Optionnel : rediriger l'utilisateur après la connexion
-        this.router.navigate(['/home']); // Remplace '/avis' par la route de ta page après connexion
+        console.log('✅ Signed in successfully!', res);
+
+        // Stocke le token et l'utilisateur dans le localStorage
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('user', JSON.stringify(res.user));
+
+        // Redirection vers la page d’accueil
+        this.router.navigate(['/home']);
       },
       error: err => {
-        console.error('Error:', err);
-        this.errorMessage = 'Invalid email or password. Please try again.'; // Message d'erreur
+        console.error('❌ Error:', err);
+        this.errorMessage = 'Invalid email or password. Please try again.';
       }
     });
   }

@@ -8,7 +8,7 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@EnableDiscoveryClient
+@EnableDiscoveryClient //eureka
 public class GatewayApplication {
 
     public static void main(String[] args) {
@@ -28,10 +28,17 @@ public class GatewayApplication {
                 .route("transport-service", r -> r
                         .path("/api/transports/**")
                         .uri("http://localhost:8081")) // nom exact de ton application Eureka
+                .route("user-service", r -> r
+                        .path("/api/users/**")
+                        .uri("http://localhost:8082"))
 
                 .route("avis-service", r -> r
                         .path("/api/avis/**")
                         .uri("http://localhost:8083")) // nom exact de ton application Eureka
+
+                .route("gestion-destination-service", r -> r
+                        .path("/api/destinations/**")
+                        .uri("http://localhost:8087"))
 
  
                 .build();
@@ -39,5 +46,5 @@ public class GatewayApplication {
 
 
     }
-    
+
 }

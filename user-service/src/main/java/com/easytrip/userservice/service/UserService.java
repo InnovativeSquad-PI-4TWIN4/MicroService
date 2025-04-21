@@ -107,6 +107,14 @@ public class UserService {
     public long countUsers() {
         return userRepository.count();
     }
+    // New method to check if a user exists by ID
+    public boolean userExists(Long id) {
+        return userRepository.existsById(id);
+    }
 
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+    }
 
 }

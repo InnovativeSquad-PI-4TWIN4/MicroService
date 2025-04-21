@@ -29,9 +29,11 @@ public class Reservationcontroller {
     }
 
     @PostMapping
-    public Reservation create(@RequestBody Reservation r) {
-        return reservationService.createReservation(r);
+    public Reservation create(@RequestBody Reservation reservation) {
+        System.out.println("🔍 userId = " + reservation.getUserId());
+        return reservationService.createReservation(reservation);
     }
+
 
     @PutMapping("/{id}")
     public Reservation update(@PathVariable Long id, @RequestBody Reservation r) {
@@ -94,6 +96,18 @@ public class Reservationcontroller {
         reservation.setSelectedOptions(selectedOptions);
         reservationService.updateReservation(id, reservation);
 
-        return ResponseEntity.ok("Options ajoutées avec succès !");
+        // ✅ Option 1 : retourne une réponse vide
+        return ResponseEntity.ok().build();
+
+    }
+
+
+    @GetMapping("/{id}/selected-options")
+    public ResponseEntity<List<String>> getSelectedOptions(@PathVariable Long id) {
+        Reservation reservation = reservationService.getReservationById(id);
+        if (reservation == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(reservation.getSelectedOptions());
     }
 }

@@ -23,5 +23,5 @@ public class Agence implements Serializable {
     private String description;
     private boolean active;
 
-    private String responsableId; // Lien vers un User existant
+    private Long responsableId; // Lien vers un User existant
 }

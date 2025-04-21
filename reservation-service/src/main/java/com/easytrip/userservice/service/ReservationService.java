@@ -57,10 +57,15 @@ public class ReservationService implements IReservationService {
             r.setDateDepart(updated.getDateDepart());
             r.setDateRetour(updated.getDateRetour());
             r.setNombrePersonnes(updated.getNombrePersonnes());
+
+            // ✅ Ajoute cette ligne pour prendre en compte les options
+            r.setSelectedOptions(updated.getSelectedOptions());
+
             return reservationRepository.save(r);
         }
         return null;
     }
+
 
     public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);

@@ -52,9 +52,8 @@ public ResponseEntity<?> createAvis(@RequestBody Avis avis, @RequestHeader("X-Us
     } catch (Exception e) {
         return ResponseEntity.status(500).body("Erreur lors de la création de l'avis : " + e.getMessage());
     }
+
 }
-
-
 
     @GetMapping("/getavis/{id}")
     public ResponseEntity<?> getAvisById(@PathVariable Long id) {
@@ -82,6 +81,7 @@ public ResponseEntity<?> createAvis(@RequestBody Avis avis, @RequestHeader("X-Us
             return ResponseEntity.status(500).body("Erreur lors de la récupération des avis : " + e.getMessage());
         }
     }
+
 
 
     @GetMapping

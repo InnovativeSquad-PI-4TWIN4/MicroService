@@ -13,9 +13,9 @@
 	</parent>
 
 	<groupId>tn.esprit</groupId>
-	<artifactId>examen</artifactId>
+	<artifactId>agence-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>examen</name>
+	<name>agence-service</name>
 	<description>EasyTrip - Gestion des agences</description>
 
 	<properties>
@@ -60,7 +60,16 @@
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.6.15</version>
 		</dependency>
-
+		<!-- lier avec Gateway user-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+		<!-- server config-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
 		<!-- Eureka Client -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
