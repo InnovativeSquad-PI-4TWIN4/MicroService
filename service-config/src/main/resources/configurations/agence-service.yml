@@ -7,7 +7,7 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: Easytrip_db
+      database: test
   eureka:
     client:
       serviceUrl:
