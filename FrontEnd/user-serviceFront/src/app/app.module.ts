@@ -26,6 +26,13 @@ import { AgenceSearchComponent } from './Agence-Service/agence-search/agence-sea
 import { AgenceExportComponent } from './Agence-Service/agence-export/agence-export.component';
 import { AgenceEmailComponent } from './Agence-Service/agence-email/agence-email.component';
 import { AgenceResponsableComponent } from './Agence-Service/agence-responsable/agence-responsable.component';
+
+
+import { AddTransportComponent } from './Transport-service/add-transport/add-transport.component';
+import { EditTransportComponent } from './Transport-service/edit-transport/edit-transport.component';
+import { ListTransportComponent } from './Transport-service/list-transports/list-transport.component';
+import { TransportDetailComponent } from './Transport-service/transport-detail/transport-detail.component';
+import { ApiweatherComponent } from './Transport-service/apiweather/apiweather.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,8 +56,12 @@ import { AgenceResponsableComponent } from './Agence-Service/agence-responsable/
     AgenceSearchComponent,
     AgenceExportComponent,
     AgenceEmailComponent,
-    AgenceResponsableComponent
-    
+    AgenceResponsableComponent,
+    AddTransportComponent,
+    EditTransportComponent,
+    ListTransportComponent,
+    TransportDetailComponent,
+    ApiweatherComponent
     
   ],
   imports: [
