@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AvisService } from 'src/app/services/avis-service/avis.service';
 import { Avis } from 'src/app/models/Avis';
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-list-all-avis',
   templateUrl: './list-all-avis.component.html',
@@ -11,7 +12,7 @@ export class ListAllAvisComponent {
   keyword: string = ''; // Pour stocker le mot-clé de recherche
   voyageId: number | null = null; // Pour stocker l'ID du voyage
   approuve: boolean | null = null; // Pour stocker le statut d'approbation
-  constructor(private avisService: AvisService) {}
+  constructor(private avisService: AvisService,public authService: AuthService) {}
 
   ngOnInit(): void {
     this.getAvis(); // Récupérer les avis au chargement
@@ -44,15 +45,17 @@ export class ListAllAvisComponent {
   }
 
    // Ajouter une réaction (like/dislike)
-   ajouterReaction(avisId: number, userId: number, liked: boolean): void {
+   ajouterReaction(avisId: number, liked: boolean): void {
+    const userId = this.authService.getCurrentUserId(); // Récupérer l'ID de l'utilisateur dans la méthode
     this.avisService.ajouterReaction(avisId, userId, liked).subscribe({
       next: (reaction) => {
         console.log('Réaction ajoutée avec succès !');
-        this.getAvis(); // Recharger la liste après la réaction
+        this.getAvis();  // Recharger la liste après la réaction
       },
       error: (err) => {
         console.error('Erreur lors de l\'ajout de la réaction :', err);
       }
     });
   }
+  
 }

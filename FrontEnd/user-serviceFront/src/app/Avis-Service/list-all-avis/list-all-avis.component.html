@@ -47,6 +47,16 @@
             </ng-container>
           </p>
           <p class="card-text"><strong>Commentaire :</strong> {{ avis.commentaire }}</p>
+          <!-- Boutons Like / Dislike -->
+<div class="d-flex justify-content-start mt-3">
+  <button class="btn btn-success me-2" (click)="ajouterReaction(avis.id, true)">
+    <i class="bi bi-hand-thumbs-up"></i> Like
+  </button>
+  <button class="btn btn-danger" (click)="ajouterReaction(avis.id, false)">
+    <i class="bi bi-hand-thumbs-down"></i> Dislike
+  </button>
+</div>
+
         </div>
       </div>
     </div>
