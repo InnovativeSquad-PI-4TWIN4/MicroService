@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { AvisService } from 'src/app/services/avis-service/avis.service';
 import { Avis } from 'src/app/models/Avis';
 import { AuthService } from 'src/app/services/auth.service';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+
 @Component({
   selector: 'app-list-all-avis',
   templateUrl: './list-all-avis.component.html',
@@ -57,5 +62,40 @@ export class ListAllAvisComponent {
       }
     });
   }
+
+
+  downloadAsPdf(): void {
+    const doc = new jsPDF();
   
+    autoTable(doc, {
+      head: [['ID', 'Utilisateur ID', 'Voyage ID', 'Note', 'Commentaire']],
+      body: this.avisList.map(avis => [
+        avis.id ?? '',
+        avis.utilisateurId ?? '',
+        avis.voyageId ?? '',
+        avis.note ?? '',
+        avis.commentaire ?? ''
+      ]),
+    });
+  
+    doc.save('avis_list.pdf');
+  }
+
+downloadAsExcel(): void {
+  const worksheet = XLSX.utils.json_to_sheet(this.avisList.map(avis => ({
+    'ID': avis.id,
+    'Utilisateur ID': avis.utilisateurId,
+    'Voyage ID': avis.voyageId,
+    'Note': avis.note,
+    'Commentaire': avis.commentaire
+  })));
+
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Avis');
+
+  const excelBuffer: ArrayBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  const data: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+  saveAs(data, 'avis_list.xlsx');
+}
+
 }

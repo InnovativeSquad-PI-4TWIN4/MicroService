@@ -1,6 +1,13 @@
 <div class="container my-5">
     <h2 class="text-center my-4">Tous les Avis</h2>
+  <!-- Bouton pour télécharger le fichier ODF -->
+  <button class="btn btn-outline-success" (click)="downloadAsPdf()">
+    Télécharger en PDF
+  </button>
   
+  <button class="btn btn-outline-primary" (click)="downloadAsExcel()">
+    Télécharger en Excel
+  </button>
     <!-- Formulaire de recherche -->
     <form (ngSubmit)="onSearch()" class="row">
       <div class="col-md-3 mb-3">
