@@ -3,7 +3,9 @@ import { AgenceService } from 'src/app/services/agence-service/agence.service';
 import { Agence } from '../../models/agence';
 import { StatsParVille } from 'src/app/models/StatsParVille';
 import { ChartData, ChartOptions } from 'chart.js';  // Import Chart.js types
-
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';  // Import html2canvas
+  import autoTable from 'jspdf-autotable';  // Import autoTable from jsPDF
 @Component({
   selector: 'app-agence-list',
   templateUrl: './agence-list.component.html'
@@ -102,4 +104,34 @@ export class AgenceListComponent implements OnInit {
     this.barChartData.datasets[0].data = actives;
     this.barChartData.datasets[1].data = inactives;
   }
+
+  
+  
+  downloadAgenciesAsPdf(): void {
+    const doc = new jsPDF();
+  
+    // Table headers for the PDF
+    const headers = [['ID', 'Name', 'Address', 'Email', 'Status']];
+  
+    // Mapping the agencies data into the format required by autoTable
+    const body = this.agences.map(agence => [
+      agence.idAgence ?? '',
+      agence.nomAg ?? '',
+      agence.adresse ?? '',
+      agence.email ?? '',
+      agence.active ? 'Active' : 'Inactive'  // Status as text
+    ]);
+  
+    // Creating the table in the PDF
+    autoTable(doc, {
+      head: headers,
+      body: body,
+      startY: 20,  // Starting position of the table
+      theme: 'striped',  // Optional: Add striped rows for better readability
+    });
+  
+    // Save the PDF with the name 'agency_list.pdf'
+    doc.save('agency_list.pdf');
+  }
+  
 }
