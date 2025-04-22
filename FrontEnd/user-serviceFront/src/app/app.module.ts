@@ -47,7 +47,7 @@ import { ApiweatherComponent } from './Transport-service/apiweather/apiweather.c
     AddAvisComponent,
     ForgotPasswordComponent,
     ListAllAvisComponent,
-    EditAvisComponent
+    EditAvisComponent,
     AddReservationComponent,
     ListReservationsComponent,
     EditReservationComponent,

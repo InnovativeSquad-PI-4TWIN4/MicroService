@@ -40,7 +40,7 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'list-all-avis', component: ListAllAvisComponent },
   { path: 'edit-avis/:id', component: EditAvisComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'reservation/add', component: AddReservationComponent },
   { path: 'reservation/list', component: ListReservationsComponent },
   { path: 'reservation/edit/:id', component: EditReservationComponent },
@@ -61,7 +61,7 @@ const routes: Routes = [
   { path: 'transports', component: ListTransportComponent },
   { path: 'transport/:id', component: TransportDetailComponent },
   { path: 'weather/:id', component: ApiweatherComponent },  // Nouvelle route pour la météo
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
 
   { path: '', redirectTo: 'signin', pathMatch: 'full' },
   { path: 'destinations', component: DestinationComponent }

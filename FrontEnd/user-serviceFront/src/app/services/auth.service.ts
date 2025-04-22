@@ -7,7 +7,7 @@ import { User } from '../models/User';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:7000/api/users';
+  private baseUrl = 'http://localhost:8082/api/users';
   private currentUserSubject = new BehaviorSubject<User | null>(this.loadUserFromStorage());
   public currentUser$ = this.currentUserSubject.asObservable();
 

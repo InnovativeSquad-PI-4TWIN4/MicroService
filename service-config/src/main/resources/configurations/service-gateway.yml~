@@ -27,7 +27,7 @@ spring:
         - id: Avis-service
           uri: lb://Avis-service
           predicates:
-            - Path=/api/avis/**
+            - Path=/api/users/**
         - id: destination-service
           uri: lb://gestion-destination-service
           predicates:
