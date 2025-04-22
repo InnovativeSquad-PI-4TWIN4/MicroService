@@ -273,7 +273,7 @@ public class ExamenService implements IExamenService {
 
         return result;
     }
-
+//1
     @Override
     public byte[] generateActiveAgencesPdf() throws IOException {
         List<Agence> agences = agenceRepository.findAll().stream()

@@ -9,7 +9,7 @@ import { WeatherResponse } from 'src/app/models/WeatherResponse';
 })
 export class TransportService {
 
-  private apiUrl = 'http://localhost:8081/api/transports'; // L'URL de ton backend
+  private apiUrl = 'http://localhost:7000/api/transports'; // L'URL de ton backend
 
   constructor(private http: HttpClient) {}
 

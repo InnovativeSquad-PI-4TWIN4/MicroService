@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/avis")
 @RequiredArgsConstructor
 //@CrossOrigin(origins = "*") // à adapter si tu veux restreindre l'accès CORS
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class AvissController {
 
     private final AvisService avisService;

@@ -9,7 +9,7 @@ import { AuthService } from '../auth.service';
 })
 export class AvisService {
 
-  private apiUrl = 'http://localhost:8083/api/avis'; // adapte au port de ton microservice
+  private apiUrl = 'http://localhost:7000/api/avis'; // adapte au port de ton microservice
 
   constructor(private http: HttpClient,private authService: AuthService ) {}
 

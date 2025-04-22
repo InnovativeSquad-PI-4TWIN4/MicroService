@@ -39,7 +39,7 @@ export class AddReservationComponent implements OnInit {
       'Authorization': `Bearer ${token}`
     });
 
-    this.http.post('http://localhost:8085/api/reservations', this.reservation, { headers })
+    this.http.post('http://localhost:7000/api/reservations', this.reservation, { headers })
       .subscribe({
         next: res => {
           alert('✅ Réservation enregistrée avec succès !');

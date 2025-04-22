@@ -29,17 +29,17 @@ public interface IExamenService {
 
     List<Agence> searchAgences(String nom, String adresse, Boolean active);
 
-    List<Map<String, Object>> getTopResponsables(int limit);//2
+    List<Map<String, Object>> getTopResponsables(int limit);
 
     String exportAgencesWithResponsablesCSV() throws IOException;
 
-    Map<String, Map<String, Long>> getStatistiquesParVilleEtStatut();//3
+    Map<String, Map<String, Long>> getStatistiquesParVilleEtStatut();
 
     Map<String, Double> getTauxDisponibiliteParVille();
 
     Map<String, Object> comparerResponsables(Long userId1, Long userId2);
 
-    byte[] generateActiveAgencesPdf() throws IOException;//1
+    byte[] generateActiveAgencesPdf() throws IOException;
 
     void envoyerAgencesParEmail(String destinataire) throws IOException, MessagingException;
 }

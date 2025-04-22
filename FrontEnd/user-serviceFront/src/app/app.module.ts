@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgChartsModule } from 'ng2-charts';  // Import ChartsModule
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,8 +30,6 @@ import { AgenceSearchComponent } from './Agence-Service/agence-search/agence-sea
 import { AgenceExportComponent } from './Agence-Service/agence-export/agence-export.component';
 import { AgenceEmailComponent } from './Agence-Service/agence-email/agence-email.component';
 import { AgenceResponsableComponent } from './Agence-Service/agence-responsable/agence-responsable.component';
-
-
 import { AddTransportComponent } from './Transport-service/add-transport/add-transport.component';
 import { EditTransportComponent } from './Transport-service/edit-transport/edit-transport.component';
 import { ListTransportComponent } from './Transport-service/list-transports/list-transport.component';
@@ -78,7 +77,10 @@ import { ApiweatherComponent } from './Transport-service/apiweather/apiweather.c
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgChartsModule
+    
+     
   ],
   providers: [],
   bootstrap: [AppComponent]

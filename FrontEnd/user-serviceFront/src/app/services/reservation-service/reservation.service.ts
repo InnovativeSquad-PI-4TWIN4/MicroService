@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ReservationService {
-  private apiUrl = 'http://localhost:8085/api/reservations';
+  private apiUrl = 'http://localhost:7000/api/reservations';
 
   constructor(private http: HttpClient) {}
 
@@ -48,14 +48,14 @@ export class ReservationService {
   }
 
   getStatistics(): Observable<any> {
-    return this.http.get('http://localhost:8085/api/reservations/statistics');
+    return this.http.get('http://localhost:7000/api/reservations/statistics');
   }
 
   getRecommendations(userId: number): Observable<string[]> {
-    return this.http.get<string[]>(`http://localhost:8085/api/reservations/recommendations/${userId}`);
+    return this.http.get<string[]>(`http://localhost:7000/api/reservations/recommendations/${userId}`);
   }
   downloadTicket(resId: number): Observable<Blob> {
-    return this.http.get(`http://localhost:8085/api/reservations/${resId}/ticket`, {
+    return this.http.get(`http://localhost:7000/api/reservations/${resId}/ticket`, {
       responseType: 'blob'
     });
   }
@@ -63,7 +63,7 @@ export class ReservationService {
   // Obtenir les options disponibles
 // Ajouter des options à une réservation
 addOptions(reservationId: number, selectedOptions: string[]): Observable<any> {
-  return this.http.post(`http://localhost:8085/api/reservations/${reservationId}/options`, selectedOptions);
+  return this.http.post(`http://localhost:7000/api/reservations/${reservationId}/options`, selectedOptions);
 }
 
 // ✅ Récupérer les options sélectionnées (déjà cochées)
